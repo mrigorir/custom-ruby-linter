@@ -8,7 +8,7 @@ detect.end_error
 detect.empty_line
 
 if detect.mistakes.empty? && detect.detector.message.empty?
-  puts "#{'No offenses'.colorize(:cyan)} detected. Impecable!"
+  puts "#{'No offenses detected'.colorize(:cyan)}. Impecable!"
 else
   detect.mistakes.uniq.each do |err|
     puts "#{detect.detector.path.colorize(:magenta)} : #{err.colorize(:red)}"

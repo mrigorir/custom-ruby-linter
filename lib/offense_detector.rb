@@ -20,10 +20,13 @@ class CheckOffenses
     end
   end
 
-  def tag_error
-    detect_tag_error(/\(/, /\)/, '(', ')', 'Parenthesis.')
-    detect_tag_error(/\[/, /\]/, '[', ']', 'Bracket.')
-    detect_tag_error(/\{/, /\}/, '{', '}', 'Curly Bracket.')
+  def empty_line
+    @detector.lines.each_with_index do |str_val, indx|
+      check_class_empty_line(str_val, indx)
+      check_def_empty_line(str_val, indx)
+      check_end_empty_line(str_val, indx)
+      check_do_empty_line(str_val, indx)
+    end
   end
 
   def end_error
@@ -39,13 +42,10 @@ class CheckOffenses
     log_error("Lint/Syntax: Unexpected 'end'.") if err_type.eql?(-1)
   end
 
-  def empty_line
-    @detector.lines.each_with_index do |str_val, indx|
-      check_class_empty_line(str_val, indx)
-      check_def_empty_line(str_val, indx)
-      check_end_empty_line(str_val, indx)
-      check_do_empty_line(str_val, indx)
-    end
+  def tag_error
+    detect_tag_error(/\(/, /\)/, '(', ')', 'Parenthesis.')
+    detect_tag_error(/\[/, /\]/, '[', ']', 'Bracket.')
+    detect_tag_error(/\{/, /\}/, '{', '}', 'Curly Bracket.')
   end
 
   # rubocop: disable Metrics/CyclomaticComplexity
@@ -119,17 +119,17 @@ class CheckOffenses
     log_error("line:#{indx + 1} #{msg2}") if @detector.lines[indx - 1].strip.split.first.eql?('end')
   end
 
-  def check_end_empty_line(str_val, indx)
-    return unless str_val.strip.split.first.eql?('end')
-
-    log_error("line:#{indx} Empty line detected at block end.") if @detector.lines[indx - 1].strip.empty?
-  end
-
   def check_do_empty_line(str_val, indx)
     msg = 'Extra empty line detected at block.'
     return unless str_val.strip.split.include?('do')
 
     log_error("line:#{indx + 2} #{msg}") if @detector.lines[indx + 1].strip.empty?
+  end
+
+  def check_end_empty_line(str_val, indx)
+    return unless str_val.strip.split.first.eql?('end')
+
+    log_error("line:#{indx} Empty line detected at block end.") if @detector.lines[indx - 1].strip.empty?
   end
 
   def log_error(error_msg)

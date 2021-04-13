@@ -1,5 +1,5 @@
 module Canvas 
-  def parameters(a, b)
+  def parameters(a,b)
     a = r]
     b=7
 
