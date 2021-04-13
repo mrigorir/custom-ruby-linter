@@ -1,11 +1,11 @@
 require_relative '../lib/offense_detector'
 
-p detect = CheckOffenses.new('../tester.rb')
-p detect.indentation
-p detect.trailing_spaces
-p detect.tag_error
-p detect.end_error
-p detect.empty_line
+detect = CheckOffenses.new('../tester.rb')
+detect.indentation
+detect.trailing_spaces
+detect.tag_error
+detect.end_error
+detect.empty_line
 
 if detect.mistakes.empty? && detect.detector.message.empty?
   puts "#{'No offenses'.colorize(:green)} detected. Impecable!"
