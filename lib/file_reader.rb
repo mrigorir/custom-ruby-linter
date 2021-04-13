@@ -2,6 +2,7 @@ require 'colorize'
 
 class FileReader
   attr_reader :message, :lines, :path, :lines_size
+
   def initialize(path)
     @message = ''
     @path = path

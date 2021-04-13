@@ -1,4 +1,4 @@
-require_relative 'file_reader.rb'
+require_relative 'file_reader'
 require 'colorize'
 require 'strscan'
 
@@ -30,7 +30,7 @@ class CheckOffenses
     kw_counter = 0
     end_counter = 0
     @detector.lines.each_with_index do |str_val, _pos|
-      kw_counter += 1 if @reserved_words.include?(str_val.split(' ').first) || str_val.split(' ').include?('do')
+      kw_counter += 1 if @reserved_words.include?(str_val.split.first) || str_val.split.include?('do')
       end_counter += 1 if str_val.strip == 'end'
     end
 
@@ -48,7 +48,7 @@ class CheckOffenses
     end
   end
 
-  # rubocop: disable Metrics/PerceivedComplexity, Metrics/CyclomaticComplexity
+  # rubocop: disable Metrics/CyclomaticComplexity
 
   def indentation
     msg = 'IndentationWidth: Use 2 spaces for indentation.'
@@ -56,7 +56,7 @@ class CheckOffenses
     indent_val = 0
 
     @detector.lines.each_with_index do |str_val, indx|
-      strip_line = str_val.strip.split(' ')
+      strip_line = str_val.strip.split
       exp_val = current_val * 2
       res_word = %w[class def if elsif until module unless begin case]
 
@@ -75,7 +75,7 @@ class CheckOffenses
   private
 
   def indent_error(str_val, pos, exp_val, msg)
-    strip_line = str_val.strip.split(' ')
+    strip_line = str_val.strip.split
     emp = str_val.match(/^\s*\s*/)
     end_chk = emp[0].size.eql?(exp_val.zero? ? 0 : exp_val - 2)
 
@@ -86,7 +86,7 @@ class CheckOffenses
     end
   end
 
-  # rubocop: enable Metrics/PerceivedComplexity, Metrics/CyclomaticComplexity
+  # rubocop: enable Metrics/CyclomaticComplexity
 
   def detect_tag_error(*args)
     @detector.lines.each_with_index do |str_val, index|
@@ -104,7 +104,7 @@ class CheckOffenses
 
   def check_class_empty_line(str_val, indx)
     msg = 'Extra empty line detected at class.'
-    return unless str_val.strip.split(' ').first.eql?('class')
+    return unless str_val.strip.split.first.eql?('class')
 
     log_error("line:#{indx + 2} #{msg}") if @detector.lines[indx + 1].strip.empty?
   end
@@ -113,21 +113,21 @@ class CheckOffenses
     msg1 = 'Extra empty line detected at method.'
     msg2 = 'Use empty lines between method definition.'
 
-    return unless str_val.strip.split(' ').first.eql?('def')
+    return unless str_val.strip.split.first.eql?('def')
 
     log_error("line:#{indx + 2} #{msg1}") if @detector.lines[indx + 1].strip.empty?
-    log_error("line:#{indx + 1} #{msg2}") if @detector.lines[indx - 1].strip.split(' ').first.eql?('end')
+    log_error("line:#{indx + 1} #{msg2}") if @detector.lines[indx - 1].strip.split.first.eql?('end')
   end
 
   def check_end_empty_line(str_val, indx)
-    return unless str_val.strip.split(' ').first.eql?('end')
+    return unless str_val.strip.split.first.eql?('end')
 
     log_error("line:#{indx} Empty line detected at block end.") if @detector.lines[indx - 1].strip.empty?
   end
 
   def check_do_empty_line(str_val, indx)
     msg = 'Extra empty line detected at block.'
-    return unless str_val.strip.split(' ').include?('do')
+    return unless str_val.strip.split.include?('do')
 
     log_error("line:#{indx + 2} #{msg}") if @detector.lines[indx + 1].strip.empty?
   end
