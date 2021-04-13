@@ -169,6 +169,10 @@ In your terminal, run `rspec` from root of the folder.
 
 To take into account: tester.rb file has been excluded from rubocop's corrections, since this file contains on-porpuse errors in order to test this tool.
 
+## Linter results after checking tester file
+
+![Results](img/results.png) 
+
 # Author
 
 👤 **Marco Parra**
