@@ -1,8 +1,3 @@
-require 'rubygems'
-require 'bundler/setup'
-require 'nokogiri'
-
-source 'https://rubygems.org'
 gem 'multi_json'
 gem 'rack'
 gem 'rspec', '~>3.7.0'
