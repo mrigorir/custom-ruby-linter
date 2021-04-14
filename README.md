@@ -174,10 +174,6 @@ Then, run `rubocop` in the terminal.
 
 ## Testing the tool
 
-~~~bash
-gem install rspec 
-~~~
-
 > Install rspec for test porpuses and colorize (optional) so the errors have a better look.
 
 ~~~bash
